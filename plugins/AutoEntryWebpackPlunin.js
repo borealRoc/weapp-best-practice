@@ -96,7 +96,8 @@ class AutoEntryWebpackPlunin {
         const { context, entry } = compiler.options
 
         inflateEntries(this.entries, context, entry)
-        
+        console.log('entrys', this.entries)
+
         compiler.hooks.entryOption.tap('AutoEntryWebpackPlunin', () => {
             this.applyEntry(compiler)
             return true
