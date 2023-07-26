@@ -1,13 +1,11 @@
 const { resolve } = require('path')
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
+const AutoEntryWebpackPlunin = require('./plugins/AutoEntryWebpackPlunin')
 
 module.exports = {
     context: resolve('src'),
-    entry: {
-        'app': './app',
-        'pages/index/index': './pages/index/index',
-    },
+    entry: { main: './app.js' },
     output: {
         path: resolve(__dirname, './dist'),
         filename: "[name].js"
@@ -36,6 +34,11 @@ module.exports = {
                     }
                 },
             ]
+        }),
+        // 3. 自动配置多入口：将 app.json 的 pages 和 subpackages 字段，以及每一个页面 *.json 的 usingComponents 字段涉及到的每一个文件设置为一个入口
+        new AutoEntryWebpackPlunin({
+            scriptExtensions: ['.ts', '.js'],
+            assetExtensions: ['.scss'],
         }),
     ],
     resolve: {
