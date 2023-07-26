@@ -1,5 +1,6 @@
 {
   "appid": "wx680ea793411c5383",
+  "miniprogramRoot": "dist/",
   "compileType": "miniprogram",
   "libVersion": "3.0.0",
   "packOptions": {
@@ -25,5 +26,6 @@
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
-  }
+  },
+  "srcMiniprogramRoot": "dist/"
 }
