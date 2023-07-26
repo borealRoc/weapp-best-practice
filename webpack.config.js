@@ -4,12 +4,24 @@ const CopyWebpackPlugin = require("copy-webpack-plugin")
 
 module.exports = {
     context: resolve('src'),
-    entry: "./app.js",
+    entry: {
+        'app': './app',
+        'pages/index/index': './pages/index/index',
+    },
     output: {
         path: resolve(__dirname, './dist'),
-        filename: "[name][chunkhash:6].js"
+        filename: "[name].js"
     },
     mode: 'none',
+    module: {
+        rules: [
+            // 2. 使用 webpack 处理 npm（JS），免去使用小程序开发工具构建npm的过程
+            {
+                test: /\.js$/,
+                use: "babel-loader",
+            },
+        ]
+    },
     plugins: [
         new CleanWebpackPlugin({}),
         // 1. 将 src 中的文件原封不动地复制到 dist 中
@@ -25,5 +37,8 @@ module.exports = {
                 },
             ]
         }),
-    ]
+    ],
+    resolve: {
+        extensions: [".js", ".json", ".ts"]
+    }
 }
