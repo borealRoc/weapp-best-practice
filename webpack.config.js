@@ -24,7 +24,7 @@ module.exports = {
     // 小程序不能用 development，所以只有 production 和 none 这两个值
     mode: debuggable ? 'none' : 'production',
     // 8. 开启 source-map
-    devtool: debuggable ? 'eval-cheap-module-source-map' : 'source-map',
+    devtool: debuggable ? 'inline-source-map' : 'source-map',
     module: {
         rules: [
             // 2. 使用 webpack 处理 npm（JS），免去使用小程序开发工具构建npm的过程
