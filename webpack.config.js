@@ -3,6 +3,11 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 const AutoEntryWebpackPlunin = require('./plugins/AutoEntryWebpackPlunin')
 const ImportRuntimePlugin = require("./plugins/ImportRuntimePlugin")
+const LodashWebpackPlugin = require('lodash-webpack-plugin')
+const webpack = require('webpack')
+const debuggable = process.env.BUILD_TYPE !== 'release'
+
+console.log(`编译时环境：开发模式 ${process.env.NODE_ENV} 构建类型：${process.env.BUILD_TYPE}`)
 
 module.exports = {
     context: resolve('src'),
@@ -13,7 +18,9 @@ module.exports = {
         // 4.1 小程序中并没有 window 对象，只有 wx
         globalObject: 'wx',
     },
-    mode: 'none',
+    // 7.2 webpack mode 有三个可能的值，分别是 production, development, none
+    // 小程序不能用 development，所以只有 production 和 none 这两个值
+    mode: debuggable ? 'none' : 'production',
     module: {
         rules: [
             // 2. 使用 webpack 处理 npm（JS），免去使用小程序开发工具构建npm的过程
@@ -45,7 +52,20 @@ module.exports = {
         }),
         // 4.2 web 应用可以通过 <script> 标签引用 runtime.js，然而小程序却不能这样。
         // 我们必须让其它模块感知到 runtime.js 的存在，因为 runtime.js 里面是个立即调用函数表达式，所以只要导入 runtime.js 即可
-        new ImportRuntimePlugin()
+        new ImportRuntimePlugin(),
+        // 6. 优化 lodash tree-shaking 效果
+        new LodashWebpackPlugin(),
+
+        // 7. 设置环境变量
+        // 7.1 将环境变量注入运行时环境
+        // 运行环境：webpack入口引入的文件（如./src/index.js）
+        // 编译环境：其他所有文件（如./webpack.config.js）
+        // - cross-env设置的值只能在编译环境读取，运行环境无法读取：
+        // - EnvironmentPlugin 基于 DefinePlugin，其设置的环境变量可以在编译环境和运行环境同时取到：
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: JSON.stringify(process.env.NODE_ENV) || 'development',
+            BUILD_TYPE: JSON.stringify(process.env.BUILD_TYPE) || 'debug',
+        }),
     ],
     resolve: {
         extensions: [".js", ".json", ".ts"]
@@ -62,5 +82,7 @@ module.exports = {
             minChunks: 2,
             minSize: 0,
         },
+        // 7.3 让webpack不会自动读取配置文件中的mode给process.env.NODE_ENV赋值, 这样process.env.NODE_ENV就只是被我们自定义的参数赋值
+        nodeEnv: false
     },
 }
