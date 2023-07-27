@@ -17,6 +17,8 @@ module.exports = {
         filename: "[name].js",
         // 4.1 小程序中并没有 window 对象，只有 wx
         globalObject: 'wx',
+        // 9.5 如果不加这个，小程序会报 app.js错误: TypeError: e.getElementsByTagName is not a function
+        publicPath: resolve('dist'),
     },
     // 7.2 webpack mode 有三个可能的值，分别是 production, development, none
     // 小程序不能用 development，所以只有 production 和 none 这两个值
@@ -30,6 +32,29 @@ module.exports = {
                 test: /\.js$/,
                 use: "babel-loader",
             },
+            // 9. 支持 sass
+            {
+                test: /\.(scss)$/,
+                include: /src/,
+                use: [
+                    // 9.2 把编译好的 css 文件移动到dist，并把后缀名改成.wxss
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            useRelativePath: true,
+                            name: '[path][name].wxss',
+                            context: resolve('src'),
+                        },
+                    },
+                    // 9.1 把 scss 文件编译成 css 文件
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sassOptions: { includePaths: [resolve('src', 'styles'), resolve('src')] },
+                        },
+                    },
+                ],
+            },
         ]
     },
     plugins: [
@@ -40,7 +65,8 @@ module.exports = {
                 {
                     from: "**/*",
                     to: "./",
-                    // 1.1 从 src 复制文件到 dist 时，排除 js 和 scss 文件
+                    // 1.1 从 src 复制文件到 dist 时，排除 js 文件，因为它们要让 babel-loader 去处理
+                    // 9.3 从 src 复制文件到 dist 时, 排除 scss 文件，因为它们要让 sass-loader 去处理
                     globOptions: {
                         ignore: ['**/*.js', '**/*.scss'],
                     }
@@ -50,6 +76,7 @@ module.exports = {
         // 3. 自动配置多入口：将 app.json 的 pages 和 subpackages 字段，以及每一个页面 *.json 的 usingComponents 字段涉及到的每一个文件设置为一个入口
         new AutoEntryWebpackPlunin({
             scriptExtensions: ['.ts', '.js'],
+            // 9.4 添加 .scss 文件作为 entry
             assetExtensions: ['.scss'],
         }),
         // 4.2 web 应用可以通过 <script> 标签引用 runtime.js，然而小程序却不能这样。
