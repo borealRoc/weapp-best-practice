@@ -11,7 +11,7 @@
     "coverView": true,
     "es6": false,
     "postcss": true,
-    "minified": true,
+    "minified": false,
     "enhance": false,
     "showShadowRootInWxmlPanel": true,
     "packNpmRelationList": [],
@@ -20,7 +20,8 @@
       "disablePlugins": [],
       "outputPath": ""
     },
-    "condition": false
+    "condition": false,
+    "minifyWXSS": true
   },
   "condition": {},
   "editorSetting": {

@@ -55,5 +55,12 @@ module.exports = {
         runtimeChunk: {
             name: 'runtime',
         },
+        // 5. 抽离公共代码，将其打包成单独的 common.js 文件
+        splitChunks: {
+            chunks: 'all',
+            name: 'common',
+            minChunks: 2,
+            minSize: 0,
+        },
     },
 }
