@@ -4,6 +4,11 @@ const util = require('../../utils/util.js')
 Page({
     onLoad() {
         console.log(util.formatTime(new Date()))
-        console.log('一个错误', e)
+        // console.log('一个错误', e)
+    },
+    $goLogin() {
+        wx.redirectTo({
+            url: "/subpackages/login/index",
+        });
     }
 })

@@ -1,4 +1,4 @@
 <!-- index.wxml -->
 <view class="container">
-    <van-button type="info">信息按钮</van-button>
+    <van-button type="info" bind:click="$goLogin">登录</van-button>
 </view>
