@@ -105,9 +105,9 @@ class AutoEntryWebpackPlunin {
 
 
         // 监听 watchRun 事件
-        // compiler.hooks.watchRun.tap('AutoEntryWebpackPlunin', (_compiler, done) => {
-        //     this.applyEntry(_compiler, done)
-        // })
+        compiler.hooks.watchRun.tap('AutoEntryWebpackPlunin', (_compiler, done) => {
+            this.applyEntry(_compiler, done)
+        })
 
         // compiler.hooks.compilation.tap('AutoEntryWebpackPlunin', compilation => {
         //     compilation.hooks.beforeChunkAssets.tap('AutoEntryWebpackPlunin', () => {
