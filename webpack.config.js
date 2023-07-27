@@ -2,13 +2,16 @@ const { resolve } = require('path')
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 const AutoEntryWebpackPlunin = require('./plugins/AutoEntryWebpackPlunin')
+const ImportRuntimePlugin = require("./plugins/ImportRuntimePlugin")
 
 module.exports = {
     context: resolve('src'),
     entry: { main: './app.js' },
     output: {
         path: resolve(__dirname, './dist'),
-        filename: "[name].js"
+        filename: "[name].js",
+        // 4.1 小程序中并没有 window 对象，只有 wx
+        globalObject: 'wx',
     },
     mode: 'none',
     module: {
@@ -40,8 +43,17 @@ module.exports = {
             scriptExtensions: ['.ts', '.js'],
             assetExtensions: ['.scss'],
         }),
+        // 4.2 web 应用可以通过 <script> 标签引用 runtime.js，然而小程序却不能这样。
+        // 我们必须让其它模块感知到 runtime.js 的存在，因为 runtime.js 里面是个立即调用函数表达式，所以只要导入 runtime.js 即可
+        new ImportRuntimePlugin()
     ],
     resolve: {
         extensions: [".js", ".json", ".ts"]
-    }
+    },
+    optimization: {
+        // 4. 不希望每个入口文件都生成 runtime 代码，而是希望将其抽离到一个单独的文件中, 以减少 app 的体积。我们通过配置 runtimeChunk 来达到这一目的
+        runtimeChunk: {
+            name: 'runtime',
+        },
+    },
 }
