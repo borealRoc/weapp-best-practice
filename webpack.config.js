@@ -5,9 +5,13 @@ const AutoEntryWebpackPlunin = require('./plugins/AutoEntryWebpackPlunin')
 const ImportRuntimePlugin = require("./plugins/ImportRuntimePlugin")
 const LodashWebpackPlugin = require('lodash-webpack-plugin')
 const webpack = require('webpack')
-const debuggable = process.env.BUILD_TYPE !== 'release'
 
+const debuggable = process.env.BUILD_TYPE !== 'release'
 console.log(`编译时环境：开发模式 ${process.env.NODE_ENV} 构建类型：${process.env.BUILD_TYPE}`)
+
+
+const Px2rpx = require('@megalo/px2rpx');
+const px2rpxIns = new Px2rpx({ rpxUnit: 0.5 })
 
 module.exports = {
     context: resolve('src'),
@@ -46,6 +50,9 @@ module.exports = {
                             context: resolve('src'),
                         },
                     },
+                    {
+                        loader: 'postcss-loader',
+                    },
                     // 9.1 把 scss 文件编译成 css 文件
                     {
                         loader: 'sass-loader',
@@ -69,7 +76,14 @@ module.exports = {
                     // 9.3 从 src 复制文件到 dist 时, 排除 scss 文件，因为它们要让 sass-loader 去处理
                     globOptions: {
                         ignore: ['**/*.js', '**/*.scss'],
-                    }
+                    },
+                    // transform(content, path) {
+                    //     if (path.endsWith('.wxss')) {
+                    //         return px2rpxIns.generateRpx(content.toString(), 1)
+                    //     } else {
+                    //         return content
+                    //     }
+                    // },
                 },
             ]
         }),
