@@ -50,6 +50,7 @@ module.exports = {
                             context: resolve('src'),
                         },
                     },
+                    // 10. 借助 postcss 实现 px自动转rpx
                     {
                         loader: 'postcss-loader',
                     },
