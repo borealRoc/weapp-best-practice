@@ -1,5 +1,7 @@
 <!-- index.wxml -->
-<view class="container">
+<view class="index">
+    <svg-icon icon="roundabout" size="{{48}}"></svg-icon>
+
     <van-button type="info" bind:click="$goLogin">登录</van-button>
     <!-- <view class="webpack-icon"></view> -->
     <!-- <image src="../../static/image/webpack.png" /> -->

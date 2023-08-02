@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "van-button": "../../components/vant/button/index",
-    "van-image": "../../components/vant/image/index"
+    "van-image": "../../components/vant/image/index",
+    "svg-icon": "../../components/custom/svg-icon/icon"
   }
 }
