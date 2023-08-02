@@ -1,9 +1,11 @@
-const util = require('../../utils/util.js')
+const util = require('utils/util.js')
 
-// index.js
+
 Page({
+    data: {
+    },
     onLoad() {
-        console.log(util.formatTime(new Date()))
+        console.log('引入utils', util.formatTime(new Date()))
         // console.log('一个错误', e)
     },
     $goLogin() {

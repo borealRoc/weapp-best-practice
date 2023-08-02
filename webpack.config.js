@@ -10,9 +10,6 @@ const debuggable = process.env.BUILD_TYPE !== 'release'
 console.log(`编译时环境：开发模式 ${process.env.NODE_ENV} 构建类型：${process.env.BUILD_TYPE}`)
 
 
-const Px2rpx = require('@megalo/px2rpx');
-const px2rpxIns = new Px2rpx({ rpxUnit: 0.5 })
-
 module.exports = {
     context: resolve('src'),
     entry: { main: './app.js' },
@@ -23,6 +20,7 @@ module.exports = {
         globalObject: 'wx',
         // 9.5 如果不加这个，小程序会报 app.js错误: TypeError: e.getElementsByTagName is not a function
         publicPath: resolve('dist'),
+        assetModuleFilename: '[path][name][ext]'
     },
     // 7.2 webpack mode 有三个可能的值，分别是 production, development, none
     // 小程序不能用 development，所以只有 production 和 none 这两个值
@@ -63,6 +61,29 @@ module.exports = {
                     },
                 ],
             },
+            // {
+            //     test: /\.(jpe?g|png|gif)$/i,
+            //     include: /src/,
+            //     use: {
+            //         loader: "url-loader",
+            //         options: {
+            //             useRelativePath: true,
+            //             context: resolve('src'),
+            //             name: "[path][name].[ext]",
+            //             limit: 1 * 1024,
+            //         },
+            //     },
+            // },
+            {
+                test: /\.(jpe?g|png|gif)$/i,
+                type: "asset",
+                parser: {
+                    dataUrlCondition: {
+                        // 6kb以下的图片被转换成base64
+                        maxSize: 5 * 1024, // 10kb
+                    },
+                }
+            }
         ]
     },
     plugins: [
@@ -76,15 +97,8 @@ module.exports = {
                     // 1.1 从 src 复制文件到 dist 时，排除 js 文件，因为它们要让 babel-loader 去处理
                     // 9.3 从 src 复制文件到 dist 时, 排除 scss 文件，因为它们要让 sass-loader 去处理
                     globOptions: {
-                        ignore: ['**/*.js', '**/*.scss'],
+                        ignore: ['**/*.js', '**/*.scss', '**/static/image/**'],
                     },
-                    // transform(content, path) {
-                    //     if (path.endsWith('.wxss')) {
-                    //         return px2rpxIns.generateRpx(content.toString(), 1)
-                    //     } else {
-                    //         return content
-                    //     }
-                    // },
                 },
             ]
         }),
@@ -112,6 +126,12 @@ module.exports = {
         }),
     ],
     resolve: {
+        alias: {
+            '@': resolve('src'),
+            'utils': resolve('src/utils'),
+            'static': resolve('src/static'),
+            'vant': resolve('src/components/vant'),
+        },
         extensions: [".js", ".json", ".ts"]
     },
     optimization: {

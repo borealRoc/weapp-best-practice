@@ -1,4 +1,6 @@
 <!-- index.wxml -->
 <view class="container">
     <van-button type="info" bind:click="$goLogin">登录</van-button>
+    <!-- <view class="webpack-icon"></view> -->
+    <!-- <image src="../../static/image/webpack.png" /> -->
 </view>
