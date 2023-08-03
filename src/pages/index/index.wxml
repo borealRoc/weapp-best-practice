@@ -1,13 +1,16 @@
 <!-- index.wxml -->
 <view class="index">
     <van-cell-group>
-        <van-cell title="自定义svg图标组件" center size="large" custom-class="index__van-cell">
+        <van-cell title="自定义svg图标组件" size="large" custom-class="index__van-cell">
             <svg-icon icon="roundabout" size="{{48}}"></svg-icon>
         </van-cell>
-        <van-cell title="使用分包" center size="large">
+        <van-cell title="使用分包" size="large">
             <van-button type="info" bind:click="$goLogin">登录</van-button>
         </van-cell>
-        <van-cell title="地区选择器" title-width="80px" size="large" center is-link value="{{area}}" bind:click="onAreaPopupOpen"></van-cell>
+        <van-cell title="地区选择器" title-width="80px" size="large" is-link value="{{area}}" bind:click="onAreaPopupOpen"></van-cell>
+        <van-cell title="样式组织">
+            <text class="style-demo">超过两行出现省略号，超过两行出现省略号，超过两行出现省略号，超过两行出现省略号</text>
+        </van-cell>
     </van-cell-group>
     <van-popup show="{{ areaPopupShow }}" position="bottom">
         <van-area area-list="{{ areaList }}" bind:confirm="onAreaPopupConfirm" bind:cancel="onAreaPopupClose" />

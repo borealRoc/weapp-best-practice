@@ -132,6 +132,7 @@ module.exports = {
             'utils': resolve('src/utils'),
             'static': resolve('src/static'),
             'vant': resolve('src/components/vant'),
+            'style': resolve('src/style'),
         },
         extensions: [".js", ".json", ".ts"]
     },
