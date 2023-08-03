@@ -38,7 +38,7 @@ module.exports = class ImportRuntimePlugin {
                 },
             )
             compilation.mainTemplate.hooks.bootstrap.tap('ImportRuntimePlugin', (source, chunk) => {
-                console.log('mainTemplate,bootstrap chunk name', chunk.name)
+                // console.log('mainTemplate,bootstrap chunk name', chunk.name)
                 const polyfill = fs.readFileSync(path.join(__dirname, './polyfill.js'), 'utf8') + ';'
                 return polyfill + source
             })
@@ -47,17 +47,17 @@ module.exports = class ImportRuntimePlugin {
 }
 
 const concatenateDependenciesAndFile = (compilation, source, entry) => {
-    console.log('-----------------------------------------------')
-    console.log(`entry name:${entry.name} entry id:${entry.id}`)
+    // console.log('-----------------------------------------------')
+    // console.log(`entry name:${entry.name} entry id:${entry.id}`)
     if (compilation.chunkGraph.getNumberOfEntryModules(entry) === 0) {
         return source
     }
 
     let dependencies = []
     entry.groupsIterable.forEach(group => {
-        console.log(`group name:${group.name}`)
+        // console.log(`group name:${group.name}`)
         group.chunks.forEach(chunk => {
-            console.log(`chunk name:${chunk.name} chunk id:${chunk.id}`)
+            // console.log(`chunk name:${chunk.name} chunk id:${chunk.id}`)
             /**
              * assume output.filename is chunk.name here
              */
@@ -68,7 +68,7 @@ const concatenateDependenciesAndFile = (compilation, source, entry) => {
             dependencies.push(filename)
         })
     })
-    console.log(`dependencies of ${entry.name}:`, dependencies)
+    // console.log(`dependencies of ${entry.name}:`, dependencies)
     source = new ConcatSource(script({ dependencies }), source)
     return source
 }

@@ -14,7 +14,7 @@
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#fff",
-        "navigationBarTitleText": "Weixin",
+        "navigationBarTitleText": "Webpack+微信小程序最佳实践",
         "navigationBarTextStyle": "black"
     },
     "sitemapLocation": "sitemap.json",

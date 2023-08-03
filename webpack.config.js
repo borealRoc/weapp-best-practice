@@ -19,7 +19,8 @@ module.exports = {
         // 4.1 小程序中并没有 window 对象，只有 wx
         globalObject: 'wx',
         // 9.5 如果不加这个，小程序会报 app.js错误: TypeError: e.getElementsByTagName is not a function
-        publicPath: resolve('dist'),
+        // publicPath: resolve('dist'),
+        publicPath: resolve('/'),
         assetModuleFilename: '[path][name][ext]'
     },
     // 7.2 webpack mode 有三个可能的值，分别是 production, development, none
