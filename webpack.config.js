@@ -21,6 +21,7 @@ module.exports = {
         // 9.5 如果不加这个，小程序会报 app.js错误: TypeError: e.getElementsByTagName is not a function
         // publicPath: resolve(__dirname, './dist'),
         publicPath: '/',
+        // 11.2 设置图片资源被webpack处理后的文件名
         assetModuleFilename: '[path][name][ext]'
     },
     // 7.2 webpack mode 有三个可能的值，分别是 production, development, none
@@ -63,27 +64,15 @@ module.exports = {
                     },
                 ],
             },
-            // {
-            //     test: /\.(jpe?g|png|gif)$/i,
-            //     include: /src/,
-            //     use: {
-            //         loader: "url-loader",
-            //         options: {
-            //             useRelativePath: true,
-            //             context: resolve('src'),
-            //             name: "[path][name].[ext]",
-            //             limit: 1 * 1024,
-            //         },
-            //     },
-            // },
+            // 11. 处理图片资源
             {
                 test: /\.(jpe?g|png|gif)$/i,
                 include: /src/,
                 type: "asset",
                 parser: {
                     dataUrlCondition: {
-                        // 5kb以下的图片被转换成base64
-                        maxSize: 5 * 1024, // 10kb
+                        // 11.1 5kb以下的图片被转换成base64
+                        maxSize: 5 * 1024,
                     },
                 },
             }
