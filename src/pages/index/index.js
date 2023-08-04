@@ -8,7 +8,8 @@ Page({
         areaList,
         area: '请选择您的地区',
         areaPopupShow: false,
-
+        smallIcon: require("../../static/image/1kb.png"),
+        bigIcon: require("../../static/image/6kb.png"),
     },
     onLoad() {
         console.log('引入utils', util.formatTime(new Date()))

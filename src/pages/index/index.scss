@@ -1,8 +1,3 @@
-// .webpack-icon {
-//     width: 128px;
-//     background: url("../../static/image/webpack.png") no-repeat 0 0;
-// }
-
 @import '../../style/mixins';
 @import "../../style/var";
 
@@ -10,5 +5,13 @@
     .style-demo {
         color: $c-gray-l;
         @include ellipsis-multi()
+    }
+
+    .webpack-icon {
+        display: inline-block;
+        width: 128px;
+        height: 128px;
+        background-repeat: no-repeat;
+        background-position: 0 0;
     }
 }

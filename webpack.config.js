@@ -19,8 +19,8 @@ module.exports = {
         // 4.1 小程序中并没有 window 对象，只有 wx
         globalObject: 'wx',
         // 9.5 如果不加这个，小程序会报 app.js错误: TypeError: e.getElementsByTagName is not a function
-        // publicPath: resolve('dist'),
-        publicPath: resolve('/'),
+        // publicPath: resolve(__dirname, './dist'),
+        publicPath: '/',
         assetModuleFilename: '[path][name][ext]'
     },
     // 7.2 webpack mode 有三个可能的值，分别是 production, development, none
@@ -33,6 +33,7 @@ module.exports = {
             // 2. 使用 webpack 处理 npm（JS），免去使用小程序开发工具构建npm的过程
             {
                 test: /\.js$/,
+                include: /src/,
                 use: "babel-loader",
             },
             // 9. 支持 sass
@@ -77,13 +78,14 @@ module.exports = {
             // },
             {
                 test: /\.(jpe?g|png|gif)$/i,
+                include: /src/,
                 type: "asset",
                 parser: {
                     dataUrlCondition: {
-                        // 6kb以下的图片被转换成base64
+                        // 5kb以下的图片被转换成base64
                         maxSize: 5 * 1024, // 10kb
                     },
-                }
+                },
             }
         ]
     },

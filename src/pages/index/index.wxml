@@ -14,7 +14,14 @@
         <van-cell title="封装请求" size="large">
             <van-button type="info" bind:click="_getBanner">发送请求</van-button>
         </van-cell>
+        <van-cell title="处理wxml中的图片,5kb以下的图片被转换成base64" size="large">
+            <van-image width="96" height="96" src="{{smallIcon}}" />
+        </van-cell>
+        <van-cell title="处理scss中的图片,5kb以下的图片被转换成base64" size="large">
+            <view class="webpack-icon" style="background-image: url({{bigIcon }})"></view>
+        </van-cell>
     </van-cell-group>
+    <!-- <view class="webpack-icon"></view> -->
     <van-popup show="{{ areaPopupShow }}" position="bottom">
         <van-area area-list="{{ areaList }}" bind:confirm="onAreaPopupConfirm" bind:cancel="onAreaPopupClose" />
     </van-popup>
