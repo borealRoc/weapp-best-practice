@@ -64,7 +64,7 @@ module.exports = {
                     },
                 ],
             },
-            // 11. 处理图片资源
+            // 11. 处理图片资源：只有被JS引用过的图片资源，才能被webpack处理
             {
                 test: /\.(jpe?g|png|gif)$/i,
                 include: /src/,
