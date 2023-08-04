@@ -1,5 +1,7 @@
 const util = require('utils/util.js')
 import { areaList } from '@vant/area-data'
+import { wxRequestGet } from 'utils/server/index'
+import apiUrl from 'utils/server/apiUrl'
 
 Page({
     data: {
@@ -33,5 +35,9 @@ Page({
             area: `${values[0].name}, ${values[1].name}, ${values[2].name}`
         })
         this.onAreaPopupClose()
+    },
+    async _getBanner() {
+        const res = await wxRequestGet(apiUrl.apiGetBannerUrl)
+        console.log('apiGetBannerUrl', res)
     }
 })
